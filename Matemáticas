@@ -45,9 +45,31 @@ print(my_jacobi(matriz_estatica , vector_cargas))
 
 
 # ******************************************************************
-# 1ER APARTADO
+# 2ER APARTADO
 # ******************************************************************
+#*****************************************************************
+# Gauss-Seidel 
+#*****************************************************************
+def my_Gauss_Seidel(A,b):
+    N=len(b)
+    X1,X2= zeros(N),zeros(N)
+    U= zeros((N,N))
+    U[:,:] = A[:,:]
+    R= b - matmul(U,X1)
+    for i in range(N): 
+        U[i, :i+1] = 0
+    
+    for i in range(N):
+        X2[i]=(R[i]-dot(A[i,:i],X2[:i]))/A[i,i]
 
+    while norm(X2 - X1) > 10**(-16):
+        X1 = X2.copy()    
+        R= b - matmul(U,X1)
+        for i in range(N):
+           X2[i]=(R[i]-dot(A[i,:i],X2[:i]))/A[i,i]
+
+    return X2
+print(my_Gauss_Seidel(A,b))
 
 
 
